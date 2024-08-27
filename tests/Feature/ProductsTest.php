@@ -21,7 +21,7 @@ class ProductsTest extends TestCase
     public function test_product_page_with_products(): void
     {
         //arrange: build the scenario
-        Product::create([
+        $product = Product::create([
             'name' => 'Test Product',
             'price' => 123,
         ]);
@@ -31,7 +31,10 @@ class ProductsTest extends TestCase
 
         //assert
         $response->assertStatus(200);
-        $response->assertDontSee('No Products Found');
+        $response->assertViewIs('product.index');
         $response->assertSee('Test Product');
+        $response->assertViewHas('products', function ($collection) use ($product) {
+            return $collection->contains($product);
+        });
     }
 }
