@@ -20,13 +20,18 @@ class ProductsTest extends TestCase
 
     public function test_product_page_with_products(): void
     {
+        //arrange: build the scenario
         Product::create([
             'name' => 'Test Product',
             'price' => 123,
         ]);
 
+        //act: simulate the actual action
         $response = $this->get('/products');
+
+        //assert
         $response->assertStatus(200);
         $response->assertDontSee('No Products Found');
+        $response->assertSee('Test Product');
     }
 }
