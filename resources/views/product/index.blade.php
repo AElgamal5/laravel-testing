@@ -10,7 +10,7 @@
 
 <body>
     @forelse ($products as $product)
-        <h3>{{ $product->name }}</h3>
+        <h3>{{ $product->name }} | {{ $product->price }} | {{ $product->price_egp }} | {{ $product->double_price }}</h3>
     @empty
         No Products Found
     @endforelse
