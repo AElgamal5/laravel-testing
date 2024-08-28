@@ -37,4 +37,18 @@ class ProductsTest extends TestCase
             return $collection->contains($product);
         });
     }
+
+    public function test_pagination_in_products_index_page()
+    {
+        $prodcuts = Product::factory()->count(11)->create();
+        $lastProduct = $prodcuts->last();
+
+        $response = $this->get('/products');
+
+        $response->assertStatus(200);
+        $response->assertViewIs('product.index');
+        $response->assertViewHas('products', function ($collection) use ($lastProduct) {
+            return !$collection->contains($lastProduct);
+        });
+    }
 }
