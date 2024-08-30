@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class ProdcutFactory extends Factory
+class ProductFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +18,7 @@ class ProdcutFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'price' => fake()->numberBetween(100, 1000),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'price' => fake()->numberBetween(100, 9999),
         ];
     }
 }
