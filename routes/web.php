@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('products', \App\Http\Controllers\ProductController::class)
-    ->middleware('auth')
-    ->name('index', 'products');
+    ->middleware('auth');
 
 require __DIR__ . '/auth.php';
