@@ -4,19 +4,16 @@
             {{ __('Products') }}
         </h2>
     </x-slot>
-    @if (auth()->user()->is_admin)
-        <div class="py-1">
+
+    <div
+        class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-300 my-3">
+        @if (auth()->user()->is_admin)
             <div class="p-6 text-blue-900 dark:text-blue-700">
                 <a href="{{ route('products.create') }}">
                     {{ __('Create New A Product') }}
                 </a>
             </div>
-        </div>
-    @else
-        <br>
-    @endif
-
-    <div class="max-w-4xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-300">
+        @endif
         <table class="w-full table-auto border-collapse border border-gray-300 dark:border-gray-700">
             <thead>
                 <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100">

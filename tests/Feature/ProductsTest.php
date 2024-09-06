@@ -82,6 +82,27 @@ class ProductsTest extends TestCase
         $response->assertForbidden(); //status = 403
     }
 
+
+    public function test_product_create_successfully(): void
+    {
+        $productData = [
+            'name' => "test",
+            'price' => 123,
+        ];
+
+        $response = $this->actingAs($this->admin)->post('/products', [
+            'name' => "test",
+            'price' => 123,
+        ]);
+        $lastProduct = Product::latest()->first();
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/products');
+        $this->assertDatabaseHas('products', $productData);
+        $this->assertEquals($productData['name'], $lastProduct->name);
+        $this->assertEquals($productData['price'], $lastProduct->price);
+    }
+
     private function createUser(bool $isAdmin = false): User
     {
         return User::factory()->create([
