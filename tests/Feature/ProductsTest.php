@@ -23,6 +23,7 @@ class ProductsTest extends TestCase
         $this->admin = $this->createUser(isAdmin: true);
     }
 
+    //---------------------pagination----------------------------//
     public function test_paginated_products_contain_10th_record(): void
     {
         $products = Product::factory(10)->create();
@@ -49,6 +50,7 @@ class ProductsTest extends TestCase
         });
     }
 
+    //---------------------authorization----------------------------//
     public function test_admin_can_see_product_create_button(): void
     {
         $response = $this->actingAs($this->admin)->get('/products');
