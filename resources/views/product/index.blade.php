@@ -8,7 +8,7 @@
         <div class="py-1">
             <div class="p-6 text-blue-900 dark:text-blue-700">
                 <a href="{{ route('products.create') }}">
-                    Create New A Product
+                    {{ __('Create New A Product') }}
                 </a>
             </div>
         </div>

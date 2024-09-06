@@ -13,12 +13,14 @@ class ProductsTest extends TestCase
     use RefreshDatabase;
 
     private User $user;
+    private User $admin;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = $this->createUser();
+        $this->admin = $this->createUser(isAdmin: true);
     }
 
     public function test_paginated_products_contain_10th_record(): void
@@ -47,8 +49,41 @@ class ProductsTest extends TestCase
         });
     }
 
-    private function createUser(): User
+    public function test_admin_can_see_product_create_button(): void
     {
-        return User::factory()->create();
+        $response = $this->actingAs($this->admin)->get('/products');
+
+        $response->assertStatus(200);
+        $response->assertSee('Create New A Product');
+    }
+
+    public function test_non_admin_can_not_see_product_create_button(): void
+    {
+        $response = $this->actingAs($this->user)->get('/products');
+
+        $response->assertStatus(200);
+        $response->assertDontSee('Create New A Product');
+    }
+
+    public function test_admin_can_access_product_create_page(): void
+    {
+        $response = $this->actingAs($this->admin)->get('/products/create');
+
+        $response->assertOk(); // status = 200
+        $response->assertSee(['Products Create', 'name', 'price']);
+    }
+
+    public function test_non_admin_can_not_access_product_create_page(): void
+    {
+        $response = $this->actingAs($this->user)->get('/products/create');
+
+        $response->assertForbidden(); //status = 403
+    }
+
+    private function createUser(bool $isAdmin = false): User
+    {
+        return User::factory()->create([
+            'is_admin' => $isAdmin
+        ]);
     }
 }
