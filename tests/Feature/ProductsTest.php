@@ -90,10 +90,7 @@ class ProductsTest extends TestCase
             'price' => 123,
         ];
 
-        $response = $this->actingAs($this->admin)->post('/products', [
-            'name' => "test",
-            'price' => 123,
-        ]);
+        $response = $this->actingAs($this->admin)->post('/products', $productData);
         $lastProduct = Product::latest()->first();
 
         $response->assertStatus(302);
