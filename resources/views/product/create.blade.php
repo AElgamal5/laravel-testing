@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-1">
-        <div class="p-6 text-blue-900 dark:text-blue-100">
+        <div class="p-6 text-blue-900 dark:text-blue-700">
             <a href="{{ route('products.index') }}">
                 Back
             </a>
