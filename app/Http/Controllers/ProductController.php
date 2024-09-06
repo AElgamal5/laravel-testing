@@ -18,4 +18,16 @@ class ProductController extends Controller
     {
         return view('product.create');
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'price' => ['required', 'integer', 'min:3'],
+        ]);
+
+        Product::create($request->all());
+
+        return back();
+    }
 }
