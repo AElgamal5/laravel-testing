@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($products as $prodcut)
+                @forelse ($products as $prodcut)
                     <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 text-center">
                         <td
                             class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
@@ -61,7 +61,15 @@
                             </td>
                         @endif
                     </tr>
-                @endforeach
+                @empty
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 text-center">
+                        <td colspan="4"
+                            class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 col-4">
+
+                            {{ __('No products found') }}
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
