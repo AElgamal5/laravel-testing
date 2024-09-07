@@ -46,7 +46,18 @@
                                 class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                                 <a href="{{ route('products.edit', $prodcut) }}" class="text-green-700">
                                     {{ __('Edit') }}
-                                </a>
+                                </a> |
+                                <form action="{{ route('products.destroy', $prodcut) }}" method="post"
+                                    class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <a href="#"
+                                        onclick="if(confirm('Are you sure?')) { this.closest('form').submit(); }"
+                                        class="text-red-700 cursor-pointer">
+                                        {{ __('Delete') }}
+                                    </a>
+                                </form>
                             </td>
                         @endif
                     </tr>
