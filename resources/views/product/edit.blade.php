@@ -12,6 +12,7 @@
 
                     <form method="POST" action="{{ route('products.update', $product) }}">
                         @csrf
+                        @method('PUT')
 
                         <!-- Name -->
                         <div>
