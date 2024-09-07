@@ -26,4 +26,9 @@ class ProductController extends Controller
 
         return to_route('products.index');
     }
+
+    public function edit(Product $product)
+    {
+        return view('product.edit', compact('product'));
+    }
 }
