@@ -100,6 +100,48 @@ class ProductsTest extends TestCase
         $this->assertEquals($productData['price'], $lastProduct->price);
     }
 
+    //---------------------validation----------------------------//
+    public function test_product_edit_contains_correct_values(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($this->admin)->get("/products/{$product->id}/edit");
+
+        $response->assertStatus(200);
+        $response->assertSee([
+            "value=\"{$product->name}\"",
+            "value=\"{$product->price}\"",
+            'Products Edit',
+        ], false);
+        $response->assertViewHas('product', $product);
+    }
+
+    public function test_product_update_validation_redirect_back_to_edit_form(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($this->admin)->put("/products/{$product->id}", [
+            'name' => '',
+            'price' => '',
+        ]);
+
+        $response->assertStatus(302);
+        $response->assertSessionHasErrors(['name', 'price']);
+        $response->assertInvalid(['name', 'price']);
+    }
+
+    public function test_product_deleted_successfully(): void
+    {
+        $product = Product::factory()->create();
+
+        $response = $this->actingAs($this->admin)->delete("/products/{$product->id}");
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/products');
+        $this->assertDatabaseMissing('products', $product->toArray());
+        $this->assertDatabaseCount('products', 0);
+    }
+
     private function createUser(bool $isAdmin = false): User
     {
         return User::factory()->create([

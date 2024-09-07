@@ -10,7 +10,7 @@
         @if (auth()->user()->is_admin)
             <div class="p-6 text-blue-900 dark:text-blue-700">
                 <a href="{{ route('products.create') }}">
-                    {{ __('Create New A Product') }}
+                    + {{ __('Create New A Product') }}
                 </a>
             </div>
         @endif
@@ -20,11 +20,14 @@
                     <th class="py-2 px-4 border border-gray-300 dark:border-gray-600">ID</th>
                     <th class="py-2 px-4 border border-gray-300 dark:border-gray-600">Name</th>
                     <th class="py-2 px-4 border border-gray-300 dark:border-gray-600">Price</th>
+                    @if (auth()->user()->is_admin)
+                        <th class="py-2 px-4 border border-gray-300 dark:border-gray-600">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
                 @foreach ($products as $prodcut)
-                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <tr class="hover:bg-gray-100 dark:hover:bg-gray-700 text-center">
                         <td
                             class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                             {{ $prodcut->id }}
@@ -37,6 +40,26 @@
                             class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                             {{ $prodcut->price }}
                         </td>
+
+                        @if (auth()->user()->is_admin)
+                            <td
+                                class="py-2 px-4 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">
+                                <a href="{{ route('products.edit', $prodcut) }}" class="text-green-700">
+                                    {{ __('Edit') }}
+                                </a> |
+                                <form action="{{ route('products.destroy', $prodcut) }}" method="post"
+                                    class="inline-block">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <a href="#"
+                                        onclick="if(confirm('Are you sure?')) { this.closest('form').submit(); }"
+                                        class="text-red-700 cursor-pointer">
+                                        {{ __('Delete') }}
+                                    </a>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
