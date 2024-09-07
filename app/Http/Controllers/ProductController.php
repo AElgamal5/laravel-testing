@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -12,5 +13,17 @@ class ProductController extends Controller
         $products = Product::paginate(10);
 
         return view('product.index', compact('products'));
+    }
+
+    public function create()
+    {
+        return view('product.create');
+    }
+
+    public function store(StoreProductRequest $request)
+    {
+        Product::create($request->validated());
+
+        return to_route('products.index');
     }
 }
